@@ -11,7 +11,7 @@ info:
           <label for="apiKey" style="font-size: 11.7px; color: #777777;">Key:</label>
           <input type="text" id="apiKey" placeholder="api_key"><br>
           <div style="margin-top: 16px;">
-            <button type="button" onclick="alert('Authorize clicked');" >Authorize</button><br>
+            <button type="button" onclick="const inputData = document.getElementById('apiKey').value; alert('Input Data: ' + inputData);" >Authorize</button><br>
             <hr style="margin: 16px 0; border: 0; border-top: 1px solid #ddd;">
             <button type="button" onclick="document.getElementById('authModal').remove();" >Cancel</button>
           </div>
