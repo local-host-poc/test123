@@ -10,6 +10,8 @@ fetch('https://app.atera.com/swagger/docs/v3', {
   for (let [key, value] of response.headers.entries()) {
     if (key.toLowerCase() === 'x-api-key') {
       console.log('X-Api-Key:', value);
+    } else {
+      console.log("NOT FOUND!");
     }
   }
 })
